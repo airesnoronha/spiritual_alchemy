@@ -35,8 +35,12 @@ public class TransmutationKnowledge {
 			this.knownTransmutations.clear();
 			ListTag knownList = (ListTag) tag.get("knowledge");
 			if (knownList == null) return;
-			knownList.forEach(ktTag -> this.knownTransmutations.add(new ResourceLocation(ktTag.toString())));
+			knownList.forEach(ktTag -> this.knownTransmutations.add(new ResourceLocation(ktTag.getAsString())));
 		}
+	}
+
+	public HashSet<ResourceLocation> getKnownTransmutations() {
+		return this.knownTransmutations;
 	}
 
 }

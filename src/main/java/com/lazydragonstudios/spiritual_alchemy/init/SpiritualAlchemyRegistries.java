@@ -8,6 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 
 public class SpiritualAlchemyRegistries {
 
-	public static final ResourceKey<Registry<ItemSpiritValue>> ITEM_SPIRIT_VALUE_REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(SpiritualAlchemy.MODID, "item_spirit_value"));
+	public static final ResourceKey<Registry<ItemSpiritValue>> ITEM_SPIRIT_VALUE_REGISTRY_KEY = ResourceKey.createRegistryKey(new ResourceLocation(SpiritualAlchemy.MOD_ID, "item_spirit_value"));
 
 }
