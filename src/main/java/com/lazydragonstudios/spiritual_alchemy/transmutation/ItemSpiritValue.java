@@ -1,5 +1,6 @@
 package com.lazydragonstudios.spiritual_alchemy.transmutation;
 
+import com.lazydragonstudios.spiritual_alchemy.utils.ItemSpiritValueUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.item.Item;
@@ -46,6 +47,7 @@ public class ItemSpiritValue {
 		this.fireAmount = fireAmount;
 		this.earthAmount = earthAmount;
 		this.metalAmount = metalAmount;
+		ItemSpiritValueUtils.SPIRIT_VALUE_BY_ITEM.put(item, this);
 	}
 
 	public Item getItem() {

@@ -3,6 +3,7 @@ package com.lazydragonstudios.spiritual_alchemy.block.entity;
 import com.lazydragonstudios.spiritual_alchemy.init.SpiritualAlchemyRegistries;
 import com.lazydragonstudios.spiritual_alchemy.knowledge.Elements;
 import com.lazydragonstudios.spiritual_alchemy.transmutation.ItemSpiritValue;
+import com.lazydragonstudios.spiritual_alchemy.utils.ItemSpiritValueUtils;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -24,6 +25,8 @@ import java.util.HashMap;
 @MethodsReturnNonnullByDefault
 public class SpritualTransmutatorEntity extends BaseContainerBlockEntity {
 
+	private final BigDecimal maxStoredEssence = new BigDecimal("15.0");
+
 	protected NonNullList<ItemStack> items = NonNullList.withSize(10, ItemStack.EMPTY);
 
 	protected HashMap<Elements, BigDecimal> storedEssence = new HashMap<>();
@@ -39,22 +42,27 @@ public class SpritualTransmutatorEntity extends BaseContainerBlockEntity {
 
 	@Override
 	public void clearContent() {
-
+		this.items.clear();
 	}
 
 	@Override
 	public int getContainerSize() {
-		return 0;
+		return 10;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return false;
+		for (ItemStack itemstack : this.items) {
+			if (!itemstack.isEmpty()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
-	public ItemStack getItem(int pSlot) {
-		return null;
+	public ItemStack getItem(int slot) {
+		return this.items.get(slot);
 	}
 
 	@Override
@@ -71,17 +79,13 @@ public class SpritualTransmutatorEntity extends BaseContainerBlockEntity {
 	public void setItem(int slot, ItemStack stack) {
 		if(slot == 0) {
 			if(this.level == null) return;
-			var registry = this.level.registryAccess().registryOrThrow(SpiritualAlchemyRegistries.ITEM_SPIRIT_VALUE_REGISTRY_KEY);
-			ItemSpiritValue itemSpiritValue = null;
-			for(var entry : registry.entrySet()) {
-				if(stack.is(entry.getValue().getItem())) {
-					itemSpiritValue = entry.getValue();
-					break;
-				}
-			}
-			if(itemSpiritValue != null) {
-
-			}
+			var itemSpiritValue = ItemSpiritValueUtils.SPIRIT_VALUE_BY_ITEM.get(stack.getItem());
+			if(itemSpiritValue == null) return;
+			this.storedEssence.put(Elements.WATER ,this.storedEssence.get(Elements.WATER).add(itemSpiritValue.waterAmount).min(maxStoredEssence));
+			this.storedEssence.put(Elements.WOOD ,this.storedEssence.get(Elements.WOOD).add(itemSpiritValue.woodAmount).min(maxStoredEssence));
+			this.storedEssence.put(Elements.FIRE ,this.storedEssence.get(Elements.FIRE).add(itemSpiritValue.fireAmount).min(maxStoredEssence));
+			this.storedEssence.put(Elements.EARTH ,this.storedEssence.get(Elements.EARTH).add(itemSpiritValue.earthAmount).min(maxStoredEssence));
+			this.storedEssence.put(Elements.METAL ,this.storedEssence.get(Elements.METAL).add(itemSpiritValue.metalAmount).min(maxStoredEssence));
 		}
 	}
 
