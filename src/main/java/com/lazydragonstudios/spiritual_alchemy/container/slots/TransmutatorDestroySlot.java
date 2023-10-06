@@ -17,4 +17,6 @@ public class TransmutatorDestroySlot extends Slot {
 		return ItemSpiritValueUtils.SPIRIT_VALUE_BY_ITEM.containsKey(item);
 	}
 
+
+
 }

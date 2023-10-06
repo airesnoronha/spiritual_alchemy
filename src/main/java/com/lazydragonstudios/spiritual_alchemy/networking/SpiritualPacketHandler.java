@@ -23,6 +23,9 @@ public class SpiritualPacketHandler {
 	public static void registerMessages() {
 		int serverMessagesID = 100;
 		INSTANCE.registerMessage(serverMessagesID++, SearchItemInTransmutator.class, SearchItemInTransmutator::encode, SearchItemInTransmutator::decode, SearchItemInTransmutator::handleMessage, Optional.of(NetworkDirection.PLAY_TO_SERVER));
+
+		int clientMessagesId = 200;
+		INSTANCE.registerMessage(clientMessagesId++, SendTransmutationKnowledgeToPlayer.class, SendTransmutationKnowledgeToPlayer::encode, SendTransmutationKnowledgeToPlayer::decode, SendTransmutationKnowledgeToPlayer::handleMessage, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
 	}
 
 }

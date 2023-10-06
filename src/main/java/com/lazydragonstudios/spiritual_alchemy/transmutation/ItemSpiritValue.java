@@ -1,5 +1,6 @@
 package com.lazydragonstudios.spiritual_alchemy.transmutation;
 
+import com.lazydragonstudios.spiritual_alchemy.knowledge.Elements;
 import com.lazydragonstudios.spiritual_alchemy.utils.ItemSpiritValueUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -8,20 +9,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 
 public class ItemSpiritValue {
 
 	public final Item item;
 
-	public final BigDecimal waterAmount;
-
-	public final BigDecimal woodAmount;
-
-	public final BigDecimal fireAmount;
-
-	public final BigDecimal earthAmount;
-
-	public final BigDecimal metalAmount;
+	private final HashMap<Elements, BigDecimal> essences = new HashMap<>();
 
 	public static final Codec<ItemSpiritValue> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 					ForgeRegistries.ITEMS.getCodec().fieldOf("item").forGetter(ItemSpiritValue::getItem),
@@ -42,11 +36,11 @@ public class ItemSpiritValue {
 
 	public ItemSpiritValue(Item item, BigDecimal waterAmount, BigDecimal woodAmount, BigDecimal fireAmount, BigDecimal earthAmount, BigDecimal metalAmount) {
 		this.item = item;
-		this.waterAmount = waterAmount;
-		this.woodAmount = woodAmount;
-		this.fireAmount = fireAmount;
-		this.earthAmount = earthAmount;
-		this.metalAmount = metalAmount;
+		this.essences.put(Elements.WATER, waterAmount);
+		this.essences.put(Elements.WOOD, woodAmount);
+		this.essences.put(Elements.FIRE, fireAmount);
+		this.essences.put(Elements.EARTH, earthAmount);
+		this.essences.put(Elements.METAL, metalAmount);
 		ItemSpiritValueUtils.SPIRIT_VALUE_BY_ITEM.put(item, this);
 	}
 
@@ -55,22 +49,26 @@ public class ItemSpiritValue {
 	}
 
 	public BigDecimal getWaterAmount() {
-		return waterAmount;
+		return this.getElementAmount(Elements.WATER);
 	}
 
 	public BigDecimal getWoodAmount() {
-		return woodAmount;
+		return this.getElementAmount(Elements.WOOD);
 	}
 
 	public BigDecimal getFireAmount() {
-		return fireAmount;
+		return this.getElementAmount(Elements.FIRE);
 	}
 
 	public BigDecimal getEarthAmount() {
-		return earthAmount;
+		return this.getElementAmount(Elements.EARTH);
 	}
 
 	public BigDecimal getMetalAmount() {
-		return metalAmount;
+		return this.getElementAmount(Elements.METAL);
+	}
+
+	public BigDecimal getElementAmount(Elements element) {
+		return this.essences.getOrDefault(element, BigDecimal.ZERO);
 	}
 }

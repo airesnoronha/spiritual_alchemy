@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @MethodsReturnNonnullByDefault
 public class SpiritualTransmutatorEntity extends BaseContainerBlockEntity {
 
-	private final BigDecimal maxStoredEssence = new BigDecimal("15.0");
+	private final BigDecimal maxStoredEssence = new BigDecimal("128.0");
 
 	protected HashMap<Elements, BigDecimal> storedEssence = new HashMap<>();
 
@@ -43,6 +43,34 @@ public class SpiritualTransmutatorEntity extends BaseContainerBlockEntity {
 		storedEssence.put(Elements.FIRE, BigDecimal.ZERO);
 		storedEssence.put(Elements.EARTH, BigDecimal.ZERO);
 		storedEssence.put(Elements.METAL, BigDecimal.ZERO);
+	}
+
+	public void addEssenceForStack(ItemStack itemStack) {
+		var item = itemStack.getItem();
+		var values = ItemSpiritValueUtils.SPIRIT_VALUE_BY_ITEM.get(item);
+		if (values == null) return;
+		for (var element : Elements.values()) {
+			this.storedEssence.put(element, this.storedEssence.getOrDefault(element, BigDecimal.ZERO).add(values.getElementAmount(element).multiply(BigDecimal.valueOf(itemStack.getCount()))).min(this.maxStoredEssence));
+		}
+		if (this.level != null && !this.level.isClientSide) {
+			this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
+		}
+	}
+
+	public void removeEssenceForStack(ItemStack itemStack) {
+		var item = itemStack.getItem();
+		var values = ItemSpiritValueUtils.SPIRIT_VALUE_BY_ITEM.get(item);
+		if (values == null) return;
+		for (var element : Elements.values()) {
+			this.storedEssence.put(element, this.storedEssence.getOrDefault(element, BigDecimal.ZERO).subtract(values.getElementAmount(element).multiply(BigDecimal.valueOf(itemStack.getCount()))).max(BigDecimal.ZERO));
+		}
+		if (this.level != null && !this.level.isClientSide) {
+			this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
+		}
+	}
+
+	public BigDecimal getMaxStoredEssence() {
+		return maxStoredEssence;
 	}
 
 	@Override
@@ -78,6 +106,10 @@ public class SpiritualTransmutatorEntity extends BaseContainerBlockEntity {
 	public void setItem(int slot, ItemStack stack) {
 	}
 
+	public HashMap<Elements, BigDecimal> getStoredEssence() {
+		return storedEssence;
+	}
+
 	@Override
 	public boolean stillValid(Player player) {
 		if (this.level == null) return false;
@@ -96,6 +128,32 @@ public class SpiritualTransmutatorEntity extends BaseContainerBlockEntity {
 	@Override
 	protected AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory) {
 		return new SpiritualTransmutatorMenu(pContainerId, pInventory, this);
+	}
+
+	@Override
+	public CompoundTag getUpdateTag() {
+		var tag =  super.getUpdateTag();
+		tag.putString("waterAmount", this.storedEssence.get(Elements.WATER).toPlainString());
+		tag.putString("woodAmount", this.storedEssence.get(Elements.WOOD).toPlainString());
+		tag.putString("fireAmount", this.storedEssence.get(Elements.FIRE).toPlainString());
+		tag.putString("earthAmount", this.storedEssence.get(Elements.EARTH).toPlainString());
+		tag.putString("metalAmount", this.storedEssence.get(Elements.METAL).toPlainString());
+		return tag;
+	}
+
+	@Override
+	public void handleUpdateTag(CompoundTag tag) {
+		super.handleUpdateTag(tag);
+		if (tag.contains("waterAmount"))
+			this.storedEssence.put(Elements.WATER, new BigDecimal(tag.getString("waterAmount")));
+		if (tag.contains("woodAmount"))
+			this.storedEssence.put(Elements.WOOD, new BigDecimal(tag.getString("woodAmount")));
+		if (tag.contains("fireAmount"))
+			this.storedEssence.put(Elements.FIRE, new BigDecimal(tag.getString("fireAmount")));
+		if (tag.contains("earthAmount"))
+			this.storedEssence.put(Elements.EARTH, new BigDecimal(tag.getString("earthAmount")));
+		if (tag.contains("metalAmount"))
+			this.storedEssence.put(Elements.METAL, new BigDecimal(tag.getString("metalAmount")));
 	}
 
 	@Override

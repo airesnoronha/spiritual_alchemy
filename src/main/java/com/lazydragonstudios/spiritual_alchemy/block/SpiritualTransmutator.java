@@ -3,6 +3,7 @@ package com.lazydragonstudios.spiritual_alchemy.block;
 import com.lazydragonstudios.spiritual_alchemy.block.entity.SpiritualTransmutatorEntity;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -18,6 +19,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -53,15 +55,15 @@ public class SpiritualTransmutator extends BaseEntityBlock {
 		if (level.isClientSide) {
 			return InteractionResult.SUCCESS;
 		} else {
-			this.openContainer(level, pos, player);
+			this.openContainer(level, pos, (ServerPlayer) player);
 			return InteractionResult.CONSUME;
 		}
 	}
 
-	protected void openContainer(Level level, BlockPos pos, Player player) {
+	protected void openContainer(Level level, BlockPos pos, ServerPlayer player) {
 		BlockEntity blockentity = level.getBlockEntity(pos);
 		if (blockentity instanceof SpiritualTransmutatorEntity) {
-			player.openMenu((MenuProvider) blockentity);
+			NetworkHooks.openScreen(player, (MenuProvider) blockentity, pos);
 		}
 	}
 

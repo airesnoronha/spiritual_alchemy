@@ -2,6 +2,7 @@ package com.lazydragonstudios.spiritual_alchemy.init;
 
 import com.lazydragonstudios.spiritual_alchemy.SpiritualAlchemy;
 import com.lazydragonstudios.spiritual_alchemy.container.SpiritualTransmutatorMenu;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.registries.DeferredRegister;
