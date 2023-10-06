@@ -1,0 +1,8 @@
+{
+	"item": "minecraft:string",
+	"waterAmount": "0.1",
+	"woodAmount": "0.4",
+	"fireAmount": "0.0",
+	"earthAmount": "0.2",
+	"metalAmount": "0.05"
+}
