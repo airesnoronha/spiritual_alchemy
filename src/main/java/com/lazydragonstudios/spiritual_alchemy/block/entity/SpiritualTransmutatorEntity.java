@@ -23,6 +23,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -50,7 +51,11 @@ public class SpiritualTransmutatorEntity extends BaseContainerBlockEntity {
 		var values = ItemSpiritValueUtils.SPIRIT_VALUE_BY_ITEM.get(item);
 		if (values == null) return;
 		for (var element : Elements.values()) {
-			this.storedEssence.put(element, this.storedEssence.getOrDefault(element, BigDecimal.ZERO).add(values.getElementAmount(element).multiply(BigDecimal.valueOf(itemStack.getCount()))).min(this.maxStoredEssence));
+			BigDecimal multiplicand = BigDecimal.valueOf(itemStack.getCount());
+			if(itemStack.isDamageableItem()) {
+				multiplicand = BigDecimal.valueOf(itemStack.getMaxDamage() - itemStack.getDamageValue()).divide(BigDecimal.valueOf(itemStack.getMaxDamage()), RoundingMode.HALF_DOWN).setScale(4);
+			}
+			this.storedEssence.put(element, this.storedEssence.getOrDefault(element, BigDecimal.ZERO).add(values.getElementAmount(element).multiply(multiplicand)).min(this.maxStoredEssence));
 		}
 		if (this.level != null && !this.level.isClientSide) {
 			this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
