@@ -10,6 +10,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -19,8 +22,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -57,6 +60,7 @@ public class SpiritualTransmutatorEntity extends BaseContainerBlockEntity {
 			}
 			this.storedEssence.put(element, this.storedEssence.getOrDefault(element, BigDecimal.ZERO).add(values.getElementAmount(element).multiply(multiplicand)).min(this.maxStoredEssence));
 		}
+		this.setChanged();
 		if (this.level != null && !this.level.isClientSide) {
 			this.level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
 		}
@@ -133,6 +137,12 @@ public class SpiritualTransmutatorEntity extends BaseContainerBlockEntity {
 	@Override
 	protected AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory) {
 		return new SpiritualTransmutatorMenu(pContainerId, pInventory, this);
+	}
+
+	@Nullable
+	@Override
+	public Packet<ClientGamePacketListener> getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
 	@Override
