@@ -88,12 +88,20 @@ public class SpiritualTransmutatorMenu extends AbstractContainerMenu {
 		this.refreshResultSlots(playerInventory.player);
 	}
 
+	private void tryToLearnTransmutation(ItemStack stack, Player player) {
+		var item = stack.getItem();
+		if (!ItemSpiritValueUtils.SPIRIT_VALUE_BY_ITEM.containsKey(item)) return;
+		var knowledge = TransmutationKnowledge.get(player);
+		knowledge.getKnownTransmutations().add(ForgeRegistries.ITEMS.getKey(item));
+	}
+
 	private void onItemContainerChanged(Container container) {
 		var stackAt0 = container.getItem(0);
 		if (stackAt0.isEmpty()) return;
 		container.setItem(0, ItemStack.EMPTY);
 		if (!(this.container instanceof SpiritualTransmutatorEntity transmutator)) return;
 		transmutator.addEssenceForStack(stackAt0);
+		tryToLearnTransmutation(stackAt0, this.lastInteractingPlayer);
 		this.refreshResultSlots(this.lastInteractingPlayer);
 	}
 
@@ -126,7 +134,7 @@ public class SpiritualTransmutatorMenu extends AbstractContainerMenu {
 		var knownItems = knowledge.getKnownTransmutations().stream().map(ForgeRegistries.ITEMS::getValue).collect(Collectors.toSet());
 		return knownItems.stream().filter(item ->
 				item.getName(item.getDefaultInstance()).getString(120).toLowerCase().matches("(.*)" + this.searchName.toLowerCase() + "(.*)")
-				&& this.getItemCountByEssence(item) > 0
+						&& this.getItemCountByEssence(item) > 0
 		).collect(Collectors.toList());
 	}
 
