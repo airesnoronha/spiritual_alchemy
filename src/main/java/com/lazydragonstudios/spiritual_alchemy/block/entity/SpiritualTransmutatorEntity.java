@@ -36,12 +36,17 @@ import java.util.stream.Collectors;
 @MethodsReturnNonnullByDefault
 public class SpiritualTransmutatorEntity extends BaseContainerBlockEntity {
 
-	private final BigDecimal maxStoredEssence = new BigDecimal("128.0");
+	private final BigDecimal maxStoredEssence;
 
 	protected HashMap<Elements, BigDecimal> storedEssence = new HashMap<>();
 
 	public SpiritualTransmutatorEntity(BlockPos pPos, BlockState pBlockState) {
+		this(pPos, pBlockState, new BigDecimal("128"));
+	}
+
+	public SpiritualTransmutatorEntity(BlockPos pPos, BlockState pBlockState, BigDecimal maxStoredEssence) {
 		super(SpiritualAlchemyBlockEntities.SPIRITUAL_TRANSMUTATOR_TYPE.get(), pPos, pBlockState);
+		this.maxStoredEssence = maxStoredEssence;
 		storedEssence.put(Elements.WATER, BigDecimal.ZERO);
 		storedEssence.put(Elements.WOOD, BigDecimal.ZERO);
 		storedEssence.put(Elements.FIRE, BigDecimal.ZERO);
@@ -55,7 +60,7 @@ public class SpiritualTransmutatorEntity extends BaseContainerBlockEntity {
 		if (values == null) return;
 		for (var element : Elements.values()) {
 			BigDecimal multiplicand = BigDecimal.valueOf(itemStack.getCount());
-			if(itemStack.isDamageableItem()) {
+			if (itemStack.isDamageableItem()) {
 				multiplicand = BigDecimal.valueOf(itemStack.getMaxDamage() - itemStack.getDamageValue()).divide(BigDecimal.valueOf(itemStack.getMaxDamage()), RoundingMode.HALF_DOWN).setScale(4);
 			}
 			this.storedEssence.put(element, this.storedEssence.getOrDefault(element, BigDecimal.ZERO).add(values.getElementAmount(element).multiply(multiplicand)).min(this.maxStoredEssence));
@@ -147,7 +152,7 @@ public class SpiritualTransmutatorEntity extends BaseContainerBlockEntity {
 
 	@Override
 	public CompoundTag getUpdateTag() {
-		var tag =  super.getUpdateTag();
+		var tag = super.getUpdateTag();
 		tag.putString("waterAmount", this.storedEssence.get(Elements.WATER).toPlainString());
 		tag.putString("woodAmount", this.storedEssence.get(Elements.WOOD).toPlainString());
 		tag.putString("fireAmount", this.storedEssence.get(Elements.FIRE).toPlainString());

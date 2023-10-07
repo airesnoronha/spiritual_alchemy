@@ -23,11 +23,14 @@ import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.math.BigDecimal;
 
 @SuppressWarnings("deprecation")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class SpiritualTransmutator extends BaseEntityBlock {
+
+	private final BigDecimal maxStoredEssence;
 
 	public static final VoxelShape VOXEL_SHAPE = Shapes.or(
 			Block.box(3, 0, 3, 13, 1, 13), //legs
@@ -40,14 +43,15 @@ public class SpiritualTransmutator extends BaseEntityBlock {
 			Block.box(1, 14, 9, 5, 16, 13)
 	);
 
-	public SpiritualTransmutator(Properties pProperties) {
+	public SpiritualTransmutator(Properties pProperties, BigDecimal maxStoredEssence) {
 		super(pProperties);
+		this.maxStoredEssence = maxStoredEssence;
 	}
 
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new SpiritualTransmutatorEntity(pos, state);
+		return new SpiritualTransmutatorEntity(pos, state, this.maxStoredEssence);
 	}
 
 	@Override

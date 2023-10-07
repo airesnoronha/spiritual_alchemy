@@ -1,0 +1,26 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"IGI",
+		"GDG",
+		"GLG"
+	],
+	"key": {
+		"I": {
+			"item": "minecraft:netherite_block"
+		},
+		"G": {
+			"item": "minecraft:gold_ingot"
+		},
+		"D": {
+			"item": "minecraft:diamond"
+		},
+		"L": {
+			"item": "minecraft:iron_block"
+		}
+	},
+	"result": {
+		"item": "spiritual_alchemy:ultimate_spiritual_transmutator",
+		"count": 1
+	}
+}
