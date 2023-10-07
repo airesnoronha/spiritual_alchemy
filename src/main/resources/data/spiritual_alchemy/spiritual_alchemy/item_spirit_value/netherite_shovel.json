@@ -1,8 +1,8 @@
 {
 	"item": "minecraft:netherite_shovel",
-	"waterAmount": "0.5",
-	"woodAmount": "0.6",
-	"fireAmount": "1",
-	"earthAmount": "1",
-	"metalAmount": "5.0"
+	"waterAmount": "0.0",
+	"woodAmount": "33.1",
+	"fireAmount": "13.2",
+	"earthAmount": "66.2",
+	"metalAmount": "34"
 }

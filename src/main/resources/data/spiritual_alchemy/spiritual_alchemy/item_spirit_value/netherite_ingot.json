@@ -1,8 +1,8 @@
 {
 	"item": "minecraft:netherite_ingot",
-	"waterAmount": "0.5",
-	"woodAmount": "0.5",
-	"fireAmount": "1",
-	"earthAmount": "1",
-	"metalAmount": "5.0"
+	"waterAmount": "1.0",
+	"woodAmount": "1.0",
+	"fireAmount": "5.0",
+	"earthAmount": "2.0",
+	"metalAmount": "10.0"
 }

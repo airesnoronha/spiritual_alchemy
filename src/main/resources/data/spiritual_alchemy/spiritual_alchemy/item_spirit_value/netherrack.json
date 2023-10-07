@@ -1,8 +1,8 @@
 {
-	"item": "minecraft:netherrack",
+	"item": "minecraft:end_stone",
 	"waterAmount": "0.0",
 	"woodAmount": "0.0",
-	"fireAmount": "0.2",
+	"fireAmount": "0.1",
 	"earthAmount": "0.2",
-	"metalAmount": "0.0"
+	"metalAmount": "0.1"
 }

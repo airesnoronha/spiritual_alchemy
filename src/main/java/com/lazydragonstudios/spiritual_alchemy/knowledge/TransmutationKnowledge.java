@@ -8,6 +8,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 
 public class TransmutationKnowledge {
 
@@ -16,10 +18,10 @@ public class TransmutationKnowledge {
 		return capOpt.orElse(new TransmutationKnowledge());
 	}
 
-	private final HashSet<ResourceLocation> knownTransmutations;
+	private final LinkedHashSet<ResourceLocation> knownTransmutations;
 
 	public TransmutationKnowledge() {
-		this.knownTransmutations = new HashSet<>();
+		this.knownTransmutations = new LinkedHashSet<>();
 	}
 
 	public CompoundTag serialize() {

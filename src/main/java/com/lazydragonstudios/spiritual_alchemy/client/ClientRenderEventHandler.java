@@ -11,6 +11,7 @@ import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderTooltipEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -39,7 +40,7 @@ public class ClientRenderEventHandler {
 			Elements.METAL, METAL_TEXTURE_LOCATION
 	);
 
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void onRenderToolTips(final RenderTooltipEvent.Pre event) {
 		var item = event.getItemStack().getItem();
 		var values = ItemSpiritValueUtils.SPIRIT_VALUE_BY_ITEM.get(item);

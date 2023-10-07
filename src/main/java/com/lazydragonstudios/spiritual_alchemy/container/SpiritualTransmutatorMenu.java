@@ -64,8 +64,8 @@ public class SpiritualTransmutatorMenu extends AbstractContainerMenu {
 		this.addSlot(new TransmutatorOutputSlot(this.itemContainer, 3, 132, 19, this::onRemoveItemStack));
 		this.addSlot(new TransmutatorOutputSlot(this.itemContainer, 4, 31, 41, this::onRemoveItemStack));
 		this.addSlot(new TransmutatorOutputSlot(this.itemContainer, 5, 161, 41, this::onRemoveItemStack));
-		this.addSlot(new TransmutatorOutputSlot(this.itemContainer, 6, 16, 67, this::onRemoveItemStack));
-		this.addSlot(new TransmutatorOutputSlot(this.itemContainer, 7, 175, 67, this::onRemoveItemStack));
+		this.addSlot(new TransmutatorOutputSlot(this.itemContainer, 6, 17, 68, this::onRemoveItemStack));
+		this.addSlot(new TransmutatorOutputSlot(this.itemContainer, 7, 176, 68, this::onRemoveItemStack));
 		this.addSlot(new TransmutatorOutputSlot(this.itemContainer, 8, 13, 95, this::onRemoveItemStack));
 		this.addSlot(new TransmutatorOutputSlot(this.itemContainer, 9, 181, 95, this::onRemoveItemStack));
 		this.addSlot(new TransmutatorOutputSlot(this.itemContainer, 10, 18, 123, this::onRemoveItemStack));
