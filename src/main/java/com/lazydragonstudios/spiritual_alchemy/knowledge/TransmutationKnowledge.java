@@ -7,9 +7,7 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 public class TransmutationKnowledge {
 
@@ -18,10 +16,10 @@ public class TransmutationKnowledge {
 		return capOpt.orElse(new TransmutationKnowledge());
 	}
 
-	private final LinkedHashSet<ResourceLocation> knownTransmutations;
+	private final LinkedList<ResourceLocation> knownTransmutations;
 
 	public TransmutationKnowledge() {
-		this.knownTransmutations = new LinkedHashSet<>();
+		this.knownTransmutations = new LinkedList<>();
 	}
 
 	public CompoundTag serialize() {
@@ -38,10 +36,11 @@ public class TransmutationKnowledge {
 			ListTag knownList = (ListTag) tag.get("knowledge");
 			if (knownList == null) return;
 			knownList.forEach(ktTag -> this.knownTransmutations.add(new ResourceLocation(ktTag.getAsString())));
+			this.knownTransmutations.sort(ResourceLocation::compareTo);
 		}
 	}
 
-	public HashSet<ResourceLocation> getKnownTransmutations() {
+	public LinkedList<ResourceLocation> getKnownTransmutations() {
 		return this.knownTransmutations;
 	}
 

@@ -54,6 +54,10 @@ public class SpiritualTransmutator extends BaseEntityBlock {
 		return new SpiritualTransmutatorEntity(pos, state, this.maxStoredEssence);
 	}
 
+	public BigDecimal getMaxStoredEssence() {
+		return maxStoredEssence;
+	}
+
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (level.isClientSide) {

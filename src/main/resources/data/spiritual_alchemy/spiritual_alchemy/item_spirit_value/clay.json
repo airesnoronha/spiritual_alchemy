@@ -1,8 +1,8 @@
 {
 	"item": "minecraft:clay",
-	"waterAmount": "0.3",
-	"woodAmount": "0.1",
+	"waterAmount": "1.2",
+	"woodAmount": "0.4",
 	"fireAmount": "0.0",
-	"earthAmount": "0.3",
+	"earthAmount": "1.2",
 	"metalAmount": "0.0"
 }

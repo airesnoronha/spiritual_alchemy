@@ -1,36 +1,29 @@
 package com.lazydragonstudios.spiritual_alchemy.block.entity;
 
+import com.lazydragonstudios.spiritual_alchemy.block.SpiritualTransmutator;
 import com.lazydragonstudios.spiritual_alchemy.container.SpiritualTransmutatorMenu;
 import com.lazydragonstudios.spiritual_alchemy.init.SpiritualAlchemyBlockEntities;
 import com.lazydragonstudios.spiritual_alchemy.knowledge.Elements;
-import com.lazydragonstudios.spiritual_alchemy.knowledge.TransmutationKnowledge;
 import com.lazydragonstudios.spiritual_alchemy.utils.ItemSpiritValueUtils;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -41,7 +34,7 @@ public class SpiritualTransmutatorEntity extends BaseContainerBlockEntity {
 	protected HashMap<Elements, BigDecimal> storedEssence = new HashMap<>();
 
 	public SpiritualTransmutatorEntity(BlockPos pPos, BlockState pBlockState) {
-		this(pPos, pBlockState, new BigDecimal("128"));
+		this(pPos, pBlockState, pBlockState.getBlock() instanceof SpiritualTransmutator transmutator ? transmutator.getMaxStoredEssence() : new BigDecimal("128"));
 	}
 
 	public SpiritualTransmutatorEntity(BlockPos pPos, BlockState pBlockState, BigDecimal maxStoredEssence) {
