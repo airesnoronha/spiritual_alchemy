@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
@@ -65,7 +66,7 @@ public class ClientRenderEventHandler {
 		for (var element : displayValues.keySet()) {
 			RenderSystem.enableBlend();
 			event.getGraphics().blit(TEXTURE_BY_ELEMENT.get(element), (stepSize-16)/2, 0, 0, 0, 16, 16, 16, 16);
-			event.getGraphics().drawCenteredString(event.getFont(), values.getElementAmount(element).setScale(2).toPlainString(), stepSize/2, 17, 0xFFffFFff);
+			event.getGraphics().drawCenteredString(event.getFont(), values.getElementAmount(element).setScale(2, RoundingMode.HALF_DOWN).toPlainString(), stepSize/2, 17, 0xFFffFFff);
 			event.getGraphics().pose().translate(stepSize, 0, 0);
 			RenderSystem.disableBlend();
 		}

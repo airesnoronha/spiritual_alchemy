@@ -25,11 +25,11 @@ public class SpiritualTransmutatorScreen extends AbstractContainerScreen<Spiritu
 	public static final ResourceLocation GUI_TEXTURE = new ResourceLocation(SpiritualAlchemy.MOD_ID, "textures/gui/spiritual_transmutator_gui.png");
 
 	public static final ImmutableMap<Elements, Point> BAR_LOCATION_BY_ELEMENT = ImmutableMap.of(
-			Elements.FIRE, new Point(86,30),
-			Elements.EARTH, new Point(135,63),
-			Elements.METAL, new Point(126,121),
-			Elements.WATER, new Point(47,121),
-			Elements.WOOD, new Point(36,63)
+			Elements.FIRE, new Point(86, 30),
+			Elements.EARTH, new Point(135, 63),
+			Elements.METAL, new Point(126, 121),
+			Elements.WATER, new Point(47, 121),
+			Elements.WOOD, new Point(36, 63)
 	);
 
 	private EditBox itemSearch;
@@ -69,24 +69,24 @@ public class SpiritualTransmutatorScreen extends AbstractContainerScreen<Spiritu
 		guiGraphics.pose().translate(this.leftPos, this.topPos, 0);
 		guiGraphics.blit(GUI_TEXTURE, 0, 0, 0, 0, 205, 255);
 		this.transmutator = this.menu.getTransmutatorContainer();
-		if(transmutator != null) {
+		if (transmutator != null) {
 			for (var element : Elements.values()) {
 				int barFill = new BigDecimal("38").multiply(transmutator.getStoredEssence().get(element)).divide(transmutator.getMaxStoredEssence(), RoundingMode.HALF_UP).intValue();
 				Point point = BAR_LOCATION_BY_ELEMENT.get(element);
-				if(point == null) continue;
-				guiGraphics.blit(GUI_TEXTURE, point.x, point.y+38-barFill, 205, 85+38-barFill, 38, barFill, 256, 256);
+				if (point == null) continue;
+				guiGraphics.blit(GUI_TEXTURE, point.x, point.y + 38 - barFill, 205, 85 + 38 - barFill, 38, barFill, 256, 256);
 			}
 		}
-		for(var element : Elements.values()) {
+		for (var element : Elements.values()) {
 			var point = new Point(BAR_LOCATION_BY_ELEMENT.get(element));
-			if(point == null) continue;
-			point.translate(19,19);
+			if (point == null) continue;
+			point.translate(19, 19);
 			var dist = point.distance(mouseX - this.leftPos, mouseY - this.topPos);
-			if(dist > 20) continue;
-			String plainString = transmutator.getStoredEssence().get(element).setScale(2).toPlainString();
+			if (dist > 20) continue;
+			String plainString = transmutator.getStoredEssence().get(element).setScale(2, RoundingMode.HALF_DOWN).toPlainString();
 			var textWidth = this.font.width(plainString);
-			guiGraphics.fill(point.x - textWidth/2-2, point.y -6, point.x+ textWidth/2+2, point.y+6, 0x447c7c7c);
-			guiGraphics.drawCenteredString(this.font, plainString, point.x, point.y-4, 0xFFffFFff);
+			guiGraphics.fill(point.x - textWidth / 2 - 2, point.y - 6, point.x + textWidth / 2 + 2, point.y + 6, 0x447c7c7c);
+			guiGraphics.drawCenteredString(this.font, plainString, point.x, point.y - 4, 0xFFffFFff);
 		}
 		guiGraphics.pose().popPose();
 	}
@@ -96,8 +96,6 @@ public class SpiritualTransmutatorScreen extends AbstractContainerScreen<Spiritu
 		super.render(guiGraphics, mouseX, mouseY, partialTick);
 		this.renderTooltip(guiGraphics, mouseX, mouseY);
 	}
-
-
 
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {

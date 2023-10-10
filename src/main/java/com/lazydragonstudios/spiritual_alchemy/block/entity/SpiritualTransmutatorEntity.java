@@ -54,7 +54,7 @@ public class SpiritualTransmutatorEntity extends BaseContainerBlockEntity {
 		for (var element : Elements.values()) {
 			BigDecimal multiplicand = BigDecimal.valueOf(itemStack.getCount());
 			if (itemStack.isDamageableItem()) {
-				multiplicand = BigDecimal.valueOf(itemStack.getMaxDamage() - itemStack.getDamageValue()).divide(BigDecimal.valueOf(itemStack.getMaxDamage()), RoundingMode.HALF_DOWN).setScale(4);
+				multiplicand = BigDecimal.valueOf(itemStack.getMaxDamage() - itemStack.getDamageValue()).divide(BigDecimal.valueOf(itemStack.getMaxDamage()), RoundingMode.HALF_DOWN).setScale(4, RoundingMode.HALF_DOWN);
 			}
 			this.storedEssence.put(element, this.storedEssence.getOrDefault(element, BigDecimal.ZERO).add(values.getElementAmount(element).multiply(multiplicand)).min(this.maxStoredEssence));
 		}
