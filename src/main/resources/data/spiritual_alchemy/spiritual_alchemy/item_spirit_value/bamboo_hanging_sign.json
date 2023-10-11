@@ -1,8 +1,8 @@
 {
-	"item": "minecraft:dark_oak_door",
+	"item": "minecraft:bamboo_hanging_sign",
 	"waterAmount": "0.0",
 	"woodAmount": "0.2",
 	"fireAmount": "0.0",
 	"earthAmount": "0.0",
-	"metalAmount": "0.0"
+	"metalAmount": "1.1"
 }
